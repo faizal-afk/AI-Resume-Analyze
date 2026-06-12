@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Analyzer</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🚀 AI Resume Analyzer</h1>
+        <p>ATS Score + Job Role Matching using AI/ML</p>
+    </div>
+
+    <div class="card">
+
+        <form method="POST"
+              enctype="multipart/form-data">
+
+            <label>Select Job Role</label>
+
+            <select name="role" required>
+
+                {% for role in roles %}
+                <option value="{{role}}">
+                    {{role}}
+                </option>
+                {% endfor %}
+
+            </select>
+
+            <br><br>
+
+            <input type="file"
+                   name="resume"
+                   accept=".pdf,.docx"
+                   required>
+
+            <br><br>
+
+            <button type="submit">
+                Analyze Resume
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if score is not none %}
+
+    <div class="card score-card">
+
+        <h2>ATS Score</h2>
+
+        <div class="score">
+            {{score}}%
+        </div>
+
+        <div class="progress">
+
+            <div class="progress-bar"
+                 style="width:{{score}}%;">
+            </div>
+
+        </div>
+
+        <h3>{{rating}}</h3>
+
+        <br>
+
+        <h3>Job Role Match</h3>
+
+        <div class="similarity">
+            {{similarity}}%
+        </div>
+
+    </div>
+
+    <div class="grid">
+
+        <div class="card">
+
+            <h2>✅ Skills Found</h2>
+
+            <ul>
+
+                {% for skill in found %}
+                <li>{{skill}}</li>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+        <div class="card">
+
+            <h2>❌ Missing Skills</h2>
+
+            <ul>
+
+                {% for skill in missing %}
+                <li>{{skill}}</li>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
+        <h2>💡 Suggestions</h2>
+
+        <ul>
+
+            {% for item in suggestions %}
+            <li>{{item}}</li>
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
